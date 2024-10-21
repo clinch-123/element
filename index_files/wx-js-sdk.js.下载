@@ -1,0 +1,62 @@
+const JsApiList = ['checkJsApi', 'scanQRCode', 'chooseImage', 'previewImage']
+const OpenTagList = ['wx-open-launch-weapp']
+
+const WxJsSdkConf = (data) => {
+    return new Promise(function (resolve, reject) {
+        $.ajax({
+            type: "POST",
+            url: "/mp/Wechat/getJsSdkConfig",
+            dataType: 'json',
+            data: data,
+            success: function (res) {
+                if (res.res == 1) {
+                    return weui.alert(res.msg, {title: '提示', buttons: [{label: '确定'}]});
+                }
+                return resolve(res)
+            },
+            error: function (res) {
+                return reject(res)
+            }
+        })
+    })
+}
+
+const WxSdkInit = async () => {
+    const current_url = encodeURIComponent(window.location.href)
+    try {
+        const wxConf = await WxJsSdkConf({current_url});
+        console.log("wxConf", wxConf)
+        const {appId, nonceStr, signature, timestamp} = wxConf.data;
+        window.wx.config({
+            // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数
+            // 可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            debug: false,
+            // 必填，公众号的唯一标识
+            appId: appId, // appId
+            // 必填，生成签名的时间戳
+            timestamp: '' + timestamp,
+            // 必填，生成签名的随机串
+            nonceStr: nonceStr,
+            // 必填，签名，见附录1
+            signature: signature,
+            // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+            jsApiList: JsApiList,
+            openTagList: OpenTagList,
+        });
+        window.wx.ready((res) => {
+            // 测试时调用
+            wx.checkJsApi({
+                jsApiList:JsApiList, // 需要检测的JS接口列表，所有JS接口列表见附录2,
+                success: function (res) {
+                    console.log("checkJsApi", res)
+                }
+            });
+        })
+        window.wx.error((err) => {
+            console.log("wx-init-err", err)
+        });
+
+    } catch (e) {
+        console.log('WxConfig Error', e);
+    }
+}

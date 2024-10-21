@@ -1,0 +1,155 @@
+function getLinkUrl(targetUrl) {
+    return "https://tb.ele.me/wow/alsc/mod/7e00602a1483310868469978?targetUrl="+targetUrl
+}
+function queryStringToObject(str) {
+    if (str.indexOf('?') > -1) {
+        str = str.substring(str.indexOf('?') + 1)
+    }
+    const data = {}
+    const strArr = str.split('&')
+    for (let i = 0; i < strArr.length; i++) {
+        const paramArr = strArr[i].split('=')
+        data[paramArr[0]] = paramArr[1] || null
+    }
+
+    return data
+}
+
+let apiResData
+
+function isIos() {
+    var u = navigator.userAgent;
+    // var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+    return !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+}
+
+var params = queryStringToObject(window.location.href)
+const CurrentHost = window.location.host
+//中转域名
+var DefaultHost
+//重定向host
+var RedirectHost
+// 获取配置
+$.ajax({
+    type: "POST",
+    url: "/mp/TakeawayQrToLink/GetJumpInfo",
+    dataType: 'json',
+    sync: false,
+    success: (res) => {
+        DefaultHost = res.data.default_domain
+        RedirectHost = res.data.jump
+        // 中转域名进行重定向
+        if (CurrentHost === DefaultHost) {
+            window.location.href = 'http://' + RedirectHost + '/static/landingPage/a/index.html?version=2022011101&code=' + params.code;
+        }
+    },
+    //error: () => {
+     //   alert('网络出错')
+    //}
+})
+var mySwiper = new Swiper(".swiper-container", {
+    direction: "vertical", // 垂直切换选项
+    loop: true, // 循环模式选项
+    allowTouchMove: false,
+    autoplay: {
+        delay: 2000,
+        stopOnLastSlide: false,
+        disableOnInteraction: false,
+    },
+});
+
+var clipboard = new Clipboard("#copy-btn");
+
+clipboard.on("success", (e) => {
+    e.clearSelection();
+    weui.alert('口令复制成功,请打开[饿了么APP]领取', {title: '提示', buttons: [{label: '确定',}]});
+    if (isIos() && apiResData.data.ios_copy_command_immd_jump == 1) {
+        setTimeout(() => {
+            toElmApp();
+        }, 500)
+    }
+});
+
+clipboard.on("error", function (e) {
+    this.$toast("该浏览器不支持复制");
+});
+
+$.ajax({
+    type: "POST",
+    url: "/mp/TakeawayQrToLink/GetParamsByCode",
+    dataType: 'json',
+    sync: false,
+    data: {
+        unique_id: params.code,
+    },
+    success: function (res) {
+        if (res.res == 1) {
+            return weui.alert(res.msg, {title: '提示', buttons: [{label: '确定'}]});
+        }
+        if (parseInt(res.data.has_expire) === 1) {
+            weui.alert('该链接即将失效，如需继续领取红包，可点击继续访问使用原有链接进行领取', {
+                title: '提示',
+                buttons: [{
+                    label: '去生成链接',
+                    onClick: function () {
+                        window.location.href = 'https://xiaokefu.com.cn/static/h5/dist/#/tools-box/index'
+                    }
+                }, {
+                    label: '继续访问', onClick: function () {
+                        exec(res)
+                    }
+                }]
+            });
+        } else {
+            exec(res)
+        }
+    }
+});
+
+
+function isUseDefaultHost() {
+    return (CurrentHost === DefaultHost || CurrentHost === RedirectHost)
+}
+
+function toElmApp(){
+    // 必须要 encodeURIComponent 两次饿了么的页面才能正常接收
+    var encodeUrl = encodeURIComponent(encodeURIComponent(apiResData.data.params));
+    var link = 'https://links.ele.me/stage/alsc-growth-download.html?fastmode=1&url=eleme%3A%2F%2Fweb%3Fo2i_code%3Dundefined%26action%3Dali.open.nav%26module%3Dh5%26packageName%3Dme.ele%26bc_fl_src%3Dundefined-0%26fastmode%3D1%26url%3D'+ encodeUrl +'%2526_ltracker_share_schema%253Dapp_outside_poster%26navType%3D0&restoreId=1621851&imei=undefined$oaid=undefined$idfa=undefined&uid=undefined';
+    window.location.href = link;
+}
+
+// 展示跳转微信小程序按钮
+function showLaunchBtn() {
+    if (!isUseDefaultHost() && !isWeiXin()) {
+        // 非自定义域名不支持跳转小程序
+        document.getElementById('launch-btn').classList.add('hide')
+        return
+    }
+    document.getElementById('launch-btn').classList.remove('hide')
+    // document.getElementById('copy-btn').classList.add('hide')
+}
+
+// 隐藏跳转微信小程序按钮
+function hideLaunchBtn() {
+    document.getElementById('launch-btn').classList.add('hide')
+    // document.getElementById('copy-btn').classList.remove('hide')
+}
+
+function exec(res) {
+    apiResData = res
+    if (isIos() && Number(res.data.ios_copy_command) === 0) {
+        toElmApp();
+        return
+    }
+    // 跳转小程序
+    $('#copy-btn').attr('data-clipboard-text', res.data.command)
+
+    $('#page').css('display', 'block')
+    if (Number(res.data.support_mini_app) === 1 && res.data.mini_app_link) {
+        //$('#launch-btn').attr('data-clipboard-text', res.data.command)
+        $("#launch-btn").attr("path", res.data.mini_app_link)
+        showLaunchBtn()
+    } else {
+        hideLaunchBtn()
+    }
+}
