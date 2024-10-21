@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<!-- saved from url=(0071)http://laopan.waimai2.cn/static/landingPage/a/index.html?code=7468719pd -->
+<html lang="zh"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1,minimum-scale=1,user-scalable=0">
+    <link rel="stylesheet" href="./index_files/weui.min.css">
+    <link rel="stylesheet" href="./index_files/swiper-bundle.min.css">
+    <title>饿了么翻倍大红包</title>
+<!--    <script src="https://unpkg.com/vconsole/dist/vconsole.min.js"></script>-->
+<!--    <script>-->
+<!--        new window.VConsole()-->
+<!--    </script>-->
+    <script src="./index_files/hm.js.下载"></script><script src="./index_files/jweixin-1.6.0.js.下载"></script>
+    <script src="./index_files/jquery.min.js.下载"></script>
+    <script src="./index_files/wx-js-sdk.js.下载"></script>
+    <script>
+        function isWeiXin() {
+            let ua = window.navigator.userAgent.toLowerCase();
+            if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        function init() {
+            WxSdkInit()
+            let launch = document.getElementById('launch-btn');
+            launch.addEventListener('launch', function (e) {
+                console.log('success', e);
+            });
+            launch.addEventListener('error', function (e) {
+                console.log('fail', e.detail);
+                hideLaunchBtn()
+            });
+        }
+    </script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+        #page {
+            display: none;
+        }
+
+        .page-content {
+            position: relative;
+            width: 100%;
+            height: 297vw;
+            background: #1aa9fc url("https://cssjscdn.xiaokefu.com.cn/static/landingPage/a/img/bg-2.png?v=4") no-repeat top;
+            background-size: 100vw auto;
+        }
+
+        .swiper-warp {
+            position: absolute;
+            left: 0;
+            right: 0;
+            padding: 3.2vw;
+            margin: 0 4.26667vw;
+            top: 48vw;
+            font-weight: 500;
+            overflow: hidden;
+            text-align: center;
+            color: #f53c28;
+        }
+
+        .swiper-container {
+            overflow: hidden;
+        }
+
+        .money-unit {
+            font-size: 9.33333vw;
+            margin-right: -0.53333vw;
+            margin-left: -3.2vw;
+        }
+
+        .money-num {
+            font-size: 15.73333vw;
+            font-weight: bolder;
+        }
+
+        .multiple-tag {
+            position: absolute;
+            left: 56vw;
+            top: 0;
+            width: 22.66667vw;
+            height: 8vw;
+            background: url("https://cssjscdn.xiaokefu.com.cn/static/landingPage/a/img/multiple_tag.png?v=4") no-repeat top;
+            background-size: cover;
+            font-size: 3.2vw;
+            transform: scale(0.8);
+            transform-origin: 0 50%;
+            line-height: 8.53333vw;
+            text-indent: 2.4vw;
+            border-radius: 13.33333vw;
+        }
+
+        .source-box {
+            padding: 10px 0;
+            line-height: 1.2;
+            text-align: center;
+
+        }
+
+        .source-box a {
+            font-size: 13px;
+        }
+
+        .copy-btn-warp {
+            position: absolute;
+            left: 0;
+            right: 0;
+            padding: 3.2vw;
+            margin: 0 4.26667vw;
+            top: 131.66667vw;
+        }
+
+        #launch-btn,
+        .copy-btn {
+            display: block;
+            width: 310px;
+            height: 40px;
+            line-height: 40px;
+            margin: 0 auto;
+            background: linear-gradient(180deg, #fe7429 0%, #ff370e 100%);
+            border-radius: 40px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 18px;
+            text-align: center;
+            animation-duration: 0.8s;
+            animation-iteration-count: infinite;
+            box-shadow: none;
+            outline: none;
+            border: none;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        #launch-btn {
+            border: 1px solid #FF591D;
+            background: #FFFFFF;
+            color: #FF591D !important;
+            margin-top: 10px;
+        }
+
+        .animate__pulse {
+            animation-name: pulse;
+            animation-timing-function: ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scaleX(1);
+            }
+            50% {
+                transform: scale3d(1.05, 1.05, 1.05);
+            }
+            to {
+                transform: scaleX(1);
+            }
+        }
+
+        .hide {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+<div class="elm-redirect" id="page" style="display: block;">
+    <div class="page-content">
+        <div class="swiper-warp">
+            <div class="swiper-container swiper-initialized swiper-vertical swiper-pointer-events" style="height: 40vw">
+                <div class="swiper-wrapper" id="swiper-wrapper-c119069234fa73b10" aria-live="off" style="transition-duration: 0ms; transform: translate3d(0px, -1228px, 0px);"><div class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="6" style="height: 614px;">
+                        <div>
+                            <span class="money-unit">￥</span><b class="money-num">15</b>
+                            <div class="multiple-tag">已翻2.7倍</div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide swiper-slide-prev" data-swiper-slide-index="0" style="height: 614px;">
+                        <div>
+                            <span class="money-unit">￥</span><b class="money-num">19</b>
+                            <div class="multiple-tag">已翻3.0倍</div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide swiper-slide-active" data-swiper-slide-index="1" style="height: 614px;">
+                        <div>
+                            <span class="money-unit">￥</span><b class="money-num">13</b>
+                            <div class="multiple-tag">已翻2.6倍</div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide swiper-slide-next" data-swiper-slide-index="2" style="height: 614px;">
+                        <div>
+                            <span class="money-unit">￥</span><b class="money-num">10</b>
+                            <div class="multiple-tag">已翻1.5倍</div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide" data-swiper-slide-index="3" style="height: 614px;">
+                        <div>
+                            <span class="money-unit">￥</span><b class="money-num">12</b>
+                            <div class="multiple-tag">已翻2.7倍</div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide" data-swiper-slide-index="4" style="height: 614px;">
+                        <div>
+                            <span class="money-unit">￥</span><b class="money-num">20</b>
+                            <div class="multiple-tag">已翻2.1倍</div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide" data-swiper-slide-index="5" style="height: 614px;">
+                        <div>
+                            <span class="money-unit">￥</span><b class="money-num">18</b>
+                            <div class="multiple-tag">已翻3倍</div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide" data-swiper-slide-index="6" style="height: 614px;">
+                        <div>
+                            <span class="money-unit">￥</span><b class="money-num">15</b>
+                            <div class="multiple-tag">已翻2.7倍</div>
+                        </div>
+                    </div>
+                <div class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-prev" data-swiper-slide-index="0" style="height: 614px;">
+                        <div>
+                            <span class="money-unit">￥</span><b class="money-num">19</b>
+                            <div class="multiple-tag">已翻3.0倍</div>
+                        </div>
+                    </div></div>
+            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+        </div>
+        <div class="copy-btn-warp">
+            <button class="copy-btn animate__pulse" id="copy-btn" data-clipboard-text="0復制文本 2:/＄3mOGNJ0＄~.👉饿了么App👈【快來領外賣紅包，最高20元，人人都有哦~】">
+                点击复制口令
+            </button>
+            <wx-open-launch-weapp id="launch-btn" username="gh_6506303a12bb" path="" class="hide">
+                <script type="text/wxtag-template">
+                    <div class="btn" style=" display: block;width: 308px;height: 40px;line-height: 40px;color: #FF591D;font-weight: 700;font-size: 18px;text-align: center;">
+                        小程序直接领取
+                    </div>
+                </script>
+            </wx-open-launch-weapp>
+        </div>
+    </div>
+    <!--      <div class="source-box">-->
+    <!--        <a href="https://xiaokefu.com.cn/static/h5/dist/#/elm-link/index?source=HBLDY">我也要生成</a>-->
+    <!--      </div>-->
+</div>
+<script>
+    isWeiXin() && init()
+</script>
+<script>
+    // 百度统计
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?6babb60fa15cef70a2915bc2f32468f2";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<script src="./index_files/weui.min.js.下载"></script>
+<script src="./index_files/clipboard.min.js.下载"></script>
+<script src="./index_files/swiper-bundle.min.js.下载"></script>
+<script src="./index_files/main.js.下载"></script>
+
+
+</body></html>
